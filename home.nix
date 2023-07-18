@@ -91,6 +91,7 @@
 	};
 	programs.zsh = {
 		enable = true;
+		enableSyntaxHighlighting = true;
 		loginExtra = "sway";
 		shellAliases = {
 			update = "sudo nixos-rebuild switch --flake /etc/nixos#surface --impure";
