@@ -25,7 +25,7 @@ After this is ran, the installed ZSH shell will have an alias for the above comm
 
 This screenshot is using the base16 rosepine color scheme, found in [this](https://github.com/tinted-theming/base16-schemes) repo and [wallpapers](https://github.com/rose-pine/wallpapers) from the rose pine Github repo.
 If you wanted to change the color scheme, it's managed by [Stylix](https://github.com/danth/stylix/).
-Edit the line in the [`home.nix`](./home.nix) file that contains
+Edit the line in the [`configuration.nix`](./configuration.nix) file that contains
 
 ```
 stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine-moon.yaml";
