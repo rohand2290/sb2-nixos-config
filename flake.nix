@@ -14,7 +14,7 @@
 			system = "x86_64-linux";
 			modules = [
 				stylix.nixosModules.stylix {
-					stylix.image = /home/rohand/Downloads/flower.jpg;
+					stylix.image = /home/rohand/Downloads/tpveste801k81.png;
 				}	
 				nur.nixosModules.nur
 				./configuration.nix

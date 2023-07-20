@@ -73,6 +73,8 @@
 	pulsemixer
 	acpilight
 	acpi
+	qutebrowser
+	wl-clipboard
   ];
   environment.shells = with pkgs; [zsh];
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -115,7 +117,7 @@
         system.stateVersion = "23.05"; # Did you read the comment?
 	nix.settings.auto-optimise-store = true;
 	nix.settings.experimental-features = ["nix-command" "flakes"];
-	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine-moon.yaml";
+	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/solarized-dark.yaml";
 	stylix.fonts = {
 		monospace = {
 			package = pkgs.nerdfonts;

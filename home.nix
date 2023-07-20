@@ -20,12 +20,16 @@
   home.packages = with pkgs; [
 	hyprpaper
 	neofetch
+	python3
 	bat
 	bemenu
 	sway-contrib.grimshot
 	texlive.combined.scheme-full
 	pipes-rs
-	toipe
+	libgen-cli
+	nodejs
+	neovide
+
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -60,25 +64,48 @@
 	programs.neovim = {
 		enable = true;
 		defaultEditor = true;
-		extraConfig = '' 
-			set number relativenumber
-			set termguicolors
+		extraLuaConfig = '' 
+			vim.opt.number = true
+			vim.opt.relativenumber = true
+			vim.opt.termguicolors = true
+			vim.g.mapleader = ","
+			vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<cr>")
+			vim.keymap.set("n", "<leader>h", "<cmd>TSToggle highlight<cr>")
+
 		'';
 		plugins = with pkgs; [
 			vimPlugins.gruvbox
 			vimPlugins.auto-pairs
 			vimPlugins.nerdtree
-			vimPlugins.goyo
+			vimPlugins.nvim-web-devicons
+			{
+				plugin = vimPlugins.nvim-tree-lua;
+				config = ''
+					packadd! nvim-tree.lua
+					lua require "nvim-tree".setup()
+				'';
+			}
+			vimPlugins.nvim-treesitter.withAllGrammars
 			{
 				plugin = vimPlugins.vim-airline;
-				config = "let g:airline_powerline_fonts = 1";
+				config = ''
+					let g:airline_powerline_fonts = 1
+					let g:airline#extensions#tabline#enabled = 1
+				'';
 			}
 			{
 				plugin = vimPlugins.vim-airline-themes;
 				config = ''let g:airline_theme="base16_vim"'';
 			}
 			vimPlugins.vim-airline-themes
+			vimPlugins.coc-pyright
 		];
+		coc = {
+			enable = true;
+		};
+	};
+	programs.helix = {
+		enable = true;
 	};
 	programs.alacritty = {
 		enable = true;
@@ -89,6 +116,14 @@
 	programs.i3status = {
 		enable = true;
 	};
+	programs.qutebrowser = {
+		enable = true;
+		extraConfig = ''
+c.colors.webpage.preferred_color_scheme = "dark"
+c.completion.web_history.max_items = 0
+		'';
+	};
+
 	programs.zsh = {
 		enable = true;
 		enableSyntaxHighlighting = true;
@@ -127,18 +162,21 @@
 					modifier = config.wayland.windowManager.sway.config.modifier;
 				in lib.mkOptionDefault {
 					"${modifier}+d" = "exec bemenu-run";
+					"${modifier}+n" = ''exec find /etc/nixos \( ! -regex '.*/\..*' \) -type f | bemenu -p "Edit which config file?" | xargs alacritty -e sudoedit'';
 					"${modifier}+q" = "kill";
 					"${modifier}+j" = "focus down";
 					"${modifier}+k" = "focus up";
 					"${modifier}+h" = "focus left";
 					"${modifier}+l" = "focus right";
+					"${modifier}+w" = "exec qutebrowser";
 					"Print" = "exec grimshot save area";
 
 				};
 		};
 	};
-	programs.firefox = {
+	programs.vscode = {
 		enable = true;
+		package = pkgs.vscodium;
 	};
 
 
