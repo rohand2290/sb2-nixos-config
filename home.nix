@@ -29,6 +29,7 @@
 	libgen-cli
 	nodejs
 	neovide
+	wlr-randr
 
   ];
 
@@ -61,51 +62,33 @@
     # EDITOR = "emacs";
   	EDITOR = "nvim";
   };
-	programs.neovim = {
+	programs.wezterm = {
 		enable = true;
-		defaultEditor = true;
-		extraLuaConfig = '' 
-			vim.opt.number = true
-			vim.opt.relativenumber = true
-			vim.opt.termguicolors = true
-			vim.g.mapleader = ","
-			vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<cr>")
-			vim.keymap.set("n", "<leader>h", "<cmd>TSToggle highlight<cr>")
-
-		'';
-		plugins = with pkgs; [
-			vimPlugins.gruvbox
-			vimPlugins.auto-pairs
-			vimPlugins.nerdtree
-			vimPlugins.nvim-web-devicons
-			{
-				plugin = vimPlugins.nvim-tree-lua;
-				config = ''
-					packadd! nvim-tree.lua
-					lua require "nvim-tree".setup()
-				'';
-			}
-			vimPlugins.nvim-treesitter.withAllGrammars
-			{
-				plugin = vimPlugins.vim-airline;
-				config = ''
-					let g:airline_powerline_fonts = 1
-					let g:airline#extensions#tabline#enabled = 1
-				'';
-			}
-			{
-				plugin = vimPlugins.vim-airline-themes;
-				config = ''let g:airline_theme="base16_vim"'';
-			}
-			vimPlugins.vim-airline-themes
-			vimPlugins.coc-pyright
-		];
-		coc = {
-			enable = true;
-		};
 	};
-	programs.helix = {
+
+	programs.nixvim = {
 		enable = true;
+		plugins = {
+			lualine = {
+				enable = true;
+			};
+			nvim-tree = {
+				enable = true;
+			};
+			nvim-autopairs = {
+				enable = true;
+			};
+			treesitter = {
+				enable = true;
+			};
+			vimtex = {
+				enable = true;
+			};
+		};
+		colorschemes.base16 = {
+			enable = true;
+			colorscheme = "nord";
+		};
 	};
 	programs.alacritty = {
 		enable = true;
@@ -146,17 +129,27 @@ c.completion.web_history.max_items = 0
 			modifier = "Mod4";
 			terminal = "alacritty";
 			window.titlebar = false;
+			gaps = {
+				inner = 12;
+				outer = 5;
+				smartGaps = false;
+			};
 			bars = [
-			#	({
-		#			mode = "dock";
-		#			hiddenState = "hide";
-		#			position = "top";
-		#			workspaceButtons = true;
-		#			workspaceNumbers = false;
-		#			statusCommand = "${pkgs.i3status}/bin/i3status";
-		#			trayOutput = "primary";
-		#		 } // config.lib.stylix.sway.bar)
+				({
+					mode = "dock";
+					hiddenState = "hide";
+					position = "top";
+					workspaceButtons = true;
+					workspaceNumbers = false;
+					statusCommand = "${pkgs.i3status}/bin/i3status";
+					trayOutput = "primary";
+				 } // config.lib.stylix.sway.bar)
 			];
+			input = {
+				"*" = {
+					xkb_options = "caps:escape";
+				};
+			};
 			keybindings = 
 				let
 					modifier = config.wayland.windowManager.sway.config.modifier;
@@ -174,10 +167,7 @@ c.completion.web_history.max_items = 0
 				};
 		};
 	};
-	programs.vscode = {
-		enable = true;
-		package = pkgs.vscodium;
-	};
+	
 
 
   # Let Home Manager install and manage itself.

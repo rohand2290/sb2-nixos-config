@@ -117,11 +117,11 @@
         system.stateVersion = "23.05"; # Did you read the comment?
 	nix.settings.auto-optimise-store = true;
 	nix.settings.experimental-features = ["nix-command" "flakes"];
-	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/solarized-dark.yaml";
+	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
 	stylix.fonts = {
 		monospace = {
 			package = pkgs.nerdfonts;
-			name = "FantasqueSansM Nerd Font Mono";
+			name = "FantasqueSansM Nerd Font";
 
 		};
 		serif = {
