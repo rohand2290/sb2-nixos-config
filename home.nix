@@ -25,11 +25,11 @@
 	bemenu
 	sway-contrib.grimshot
 	texlive.combined.scheme-full
-	pipes-rs
-	libgen-cli
 	nodejs
-	neovide
 	wlr-randr
+	ranger
+	xdg-utils
+
 
   ];
 
@@ -62,16 +62,35 @@
     # EDITOR = "emacs";
   	EDITOR = "nvim";
   };
-	programs.wezterm = {
+	programs.vscode = {
 		enable = true;
 	};
 
 	programs.nixvim = {
 		enable = true;
-		plugins = {
-			lualine = {
-				enable = true;
+		globals.mapleader = ",";
+		extraConfigVim = ''
+			set number relativenumber
+			hi Normal guibg=NONE ctermbg=NONE
+		'';
+		colorschemes.gruvbox.enable = true;
+		colorschemes.gruvbox.transparentBg = true;
+		maps.normal = {
+
+			"<leader>n" = {
+				silent = true;
+				remap = false;
+				action = "<cmd>NvimTreeToggle<CR>";
 			};
+			"<leader>ff" = {
+				silent = true;
+				remap = false;
+				action = "<cmd>Telescope find_files<CR>";
+			};
+			
+		};
+
+		plugins = {
 			nvim-tree = {
 				enable = true;
 			};
@@ -84,10 +103,57 @@
 			vimtex = {
 				enable = true;
 			};
-		};
-		colorschemes.base16 = {
-			enable = true;
-			colorscheme = "nord";
+			lsp = {
+				enable = true;
+				keymaps = {
+					silent = true;
+					diagnostic = {
+						"<leader>j" = "goto_next";
+						"<leader>k" = "goto_prev";
+					};
+
+					lspBuf = {
+						K = "hover";
+						gD = "references";
+						gd = "definition";
+						gi = "implementation";
+						gt = "type_definition";
+					};
+				};
+				servers = {
+					pyright.enable = true;
+					tsserver.enable = true;
+				};
+			};
+			nvim-cmp = {
+				enable = true;
+				sources =
+					[
+						{name = "nvim_lsp";}
+						{name = "path";}
+						{name = "buffer";}
+					];
+				mapping = {
+					"<CR>" = "cmp.mapping.confirm({select = true})";
+					"<Tab>" = {
+						modes = ["i" "s"];
+						action = ''
+							function(fallback)
+								if cmp.visible() then
+									cmp.select_next_item()
+								else
+									fallback()
+								end
+							end
+						'';
+					};
+				};
+			};
+			lspsaga.enable = true;
+			telescope = {
+				enable = true;
+			};
+
 		};
 	};
 	programs.alacritty = {
@@ -96,7 +162,7 @@
 	programs.zathura = {
 		enable = true;
 	};
-	programs.i3status = {
+	programs.i3status-rust = {
 		enable = true;
 	};
 	programs.qutebrowser = {
@@ -112,7 +178,7 @@ c.completion.web_history.max_items = 0
 		enableSyntaxHighlighting = true;
 		loginExtra = "sway";
 		shellAliases = {
-			update = "sudo nixos-rebuild switch --flake /etc/nixos#surface --impure";
+			update = "sudo nixos-rebuild switch --flake /home/rohand/sb2-nixos-config#surface --impure";
 		};
 		oh-my-zsh = {
 			enable = true;
@@ -120,9 +186,7 @@ c.completion.web_history.max_items = 0
 			theme = "minimal";
 		};
 	};
-	programs.lf = {
-		enable = true;
-	};
+
 	wayland.windowManager.sway = {
 		enable = true;
 		config = rec {
@@ -135,15 +199,15 @@ c.completion.web_history.max_items = 0
 				smartGaps = false;
 			};
 			bars = [
-				({
-					mode = "dock";
-					hiddenState = "hide";
-					position = "top";
-					workspaceButtons = true;
-					workspaceNumbers = false;
-					statusCommand = "${pkgs.i3status}/bin/i3status";
-					trayOutput = "primary";
-				 } // config.lib.stylix.sway.bar)
+				#({
+				#	mode = "dock";
+				#	hiddenState = "hide";
+				#	position = "top";
+				#	workspaceButtons = true;
+				#	workspaceNumbers = false;
+				#	statusCommand = "${pkgs.i3status}/bin/i3status";
+				#	trayOutput = "primary";
+				 #} // config.lib.stylix.sway.bar)
 			];
 			input = {
 				"*" = {
@@ -155,7 +219,7 @@ c.completion.web_history.max_items = 0
 					modifier = config.wayland.windowManager.sway.config.modifier;
 				in lib.mkOptionDefault {
 					"${modifier}+d" = "exec bemenu-run";
-					"${modifier}+n" = ''exec find /etc/nixos \( ! -regex '.*/\..*' \) -type f | bemenu -p "Edit which config file?" | xargs alacritty -e sudoedit'';
+					"${modifier}+e" = ''exec find /home/rohand/sb2-nixos-config \( ! -regex '.*/\..*' \) -type f | bemenu -p "Edit which config file?" | xargs alacritty -e nvim'';
 					"${modifier}+q" = "kill";
 					"${modifier}+j" = "focus down";
 					"${modifier}+k" = "focus up";
@@ -163,10 +227,11 @@ c.completion.web_history.max_items = 0
 					"${modifier}+l" = "focus right";
 					"${modifier}+w" = "exec qutebrowser";
 					"Print" = "exec grimshot save area";
-
+					"${modifier}+n" = "exec alacritty -e ranger";
 				};
 		};
 	};
+	programs.helix.enable = true;
 	
 
 

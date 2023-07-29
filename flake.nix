@@ -15,8 +15,8 @@
 			system = "x86_64-linux";
 			modules = [
 				stylix.nixosModules.stylix {
-					stylix.image = /home/rohand/Downloads/nord-rainbow-dark-nix.png;
-				}	
+					stylix.image = /home/rohand/Downloads/stairs.jpg;
+				}
 				nur.nixosModules.nur
 				./configuration.nix
 				home-manager.nixosModules.home-manager {

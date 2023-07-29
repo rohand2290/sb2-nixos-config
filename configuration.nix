@@ -117,7 +117,7 @@
         system.stateVersion = "23.05"; # Did you read the comment?
 	nix.settings.auto-optimise-store = true;
 	nix.settings.experimental-features = ["nix-command" "flakes"];
-	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
 	stylix.fonts = {
 		monospace = {
 			package = pkgs.nerdfonts;
@@ -125,8 +125,8 @@
 
 		};
 		serif = {
-			package = pkgs.overpass;
-			name = "Overpass";
+			package = pkgs.nerdfonts;
+			name = "FantasqueSansM Nerd Font";
 		};
 		sansSerif = config.stylix.fonts.serif;
 		sizes = {
@@ -135,7 +135,7 @@
 		};
 	};
 	stylix.opacity = {
-		terminal = 1.0;
+		terminal = 0.8;
 		applications = 1.0;
 	};
 
