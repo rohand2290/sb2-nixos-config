@@ -73,7 +73,6 @@
 	pulsemixer
 	acpilight
 	acpi
-	qutebrowser
 	wl-clipboard
   ];
   environment.shells = with pkgs; [zsh];
@@ -126,17 +125,17 @@
 		};
 		serif = {
 			package = pkgs.nerdfonts;
-			name = "FantasqueSansM Nerd Font";
+			name = "Overpass Nerd Font";
 		};
 		sansSerif = config.stylix.fonts.serif;
 		sizes = {
 			applications = 10;
-			terminal = 10;
+			terminal = 11;
 		};
 	};
 	stylix.opacity = {
 		terminal = 0.8;
 		applications = 1.0;
-	};
+  };
 
 }

@@ -27,8 +27,12 @@
 	texlive.combined.scheme-full
 	nodejs
 	wlr-randr
-	ranger
 	xdg-utils
+  libreoffice-fresh
+  i3blocks
+  gnumake
+  bashmount
+  runelite
 
 
   ];
@@ -66,6 +70,11 @@
 		enable = true;
 	};
 
+  programs.firefox = {
+    enable = true;
+  };
+
+  programs.lf.enable = true;
 	programs.nixvim = {
 		enable = true;
 		globals.mapleader = ",";
@@ -87,7 +96,7 @@
 				remap = false;
 				action = "<cmd>Telescope find_files<CR>";
 			};
-			
+
 		};
 
 		plugins = {
@@ -162,16 +171,6 @@
 	programs.zathura = {
 		enable = true;
 	};
-	programs.i3status-rust = {
-		enable = true;
-	};
-	programs.qutebrowser = {
-		enable = true;
-		extraConfig = ''
-c.colors.webpage.preferred_color_scheme = "dark"
-c.completion.web_history.max_items = 0
-		'';
-	};
 
 	programs.zsh = {
 		enable = true;
@@ -194,45 +193,50 @@ c.completion.web_history.max_items = 0
 			terminal = "alacritty";
 			window.titlebar = false;
 			gaps = {
-				inner = 12;
-				outer = 5;
+				inner = 10;
+				outer = 4;
 				smartGaps = false;
 			};
 			bars = [
-				#({
-				#	mode = "dock";
-				#	hiddenState = "hide";
-				#	position = "top";
-				#	workspaceButtons = true;
-				#	workspaceNumbers = false;
-				#	statusCommand = "${pkgs.i3status}/bin/i3status";
-				#	trayOutput = "primary";
-				 #} // config.lib.stylix.sway.bar)
+			({
+					mode = "dock";
+					hiddenState = "hide";
+					position = "top";
+					workspaceButtons = true;
+					workspaceNumbers = false;
+					statusCommand = "i3blocks";
+					trayOutput = "primary";
+          fonts = {
+            names = ["FantasqueSansM Nerd Font"];
+            size = 10.0;
+            style = "Regular";
+          };
+				})
 			];
 			input = {
 				"*" = {
 					xkb_options = "caps:escape";
 				};
 			};
-			keybindings = 
+			keybindings =
 				let
 					modifier = config.wayland.windowManager.sway.config.modifier;
 				in lib.mkOptionDefault {
 					"${modifier}+d" = "exec bemenu-run";
-					"${modifier}+e" = ''exec find /home/rohand/sb2-nixos-config \( ! -regex '.*/\..*' \) -type f | bemenu -p "Edit which config file?" | xargs alacritty -e nvim'';
+					"${modifier}+n" = ''exec find /home/rohand/sb2-nixos-config \( ! -regex '.*/\..*' \) -type f | bemenu -p "Edit which config file?" | xargs alacritty -e nvim'';
 					"${modifier}+q" = "kill";
 					"${modifier}+j" = "focus down";
 					"${modifier}+k" = "focus up";
 					"${modifier}+h" = "focus left";
 					"${modifier}+l" = "focus right";
-					"${modifier}+w" = "exec qutebrowser";
+					"${modifier}+w" = "exec firefox";
 					"Print" = "exec grimshot save area";
-					"${modifier}+n" = "exec alacritty -e ranger";
+					"${modifier}+Shift+r" = "exec alacritty -e ranger";
 				};
 		};
 	};
 	programs.helix.enable = true;
-	
+
 
 
   # Let Home Manager install and manage itself.

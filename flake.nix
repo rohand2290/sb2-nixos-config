@@ -15,7 +15,7 @@
 			system = "x86_64-linux";
 			modules = [
 				stylix.nixosModules.stylix {
-					stylix.image = /home/rohand/Downloads/stairs.jpg;
+					stylix.image = /home/rohand/Downloads/wallhaven-exx3kk.jpg;
 				}
 				nur.nixosModules.nur
 				./configuration.nix
